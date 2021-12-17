@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "your_photos",
+  "info": {
+    "singularName": "your-photo",
+    "pluralName": "your-photos",
+    "displayName": "YourPhotos",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "photo": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::photo.photo"
+    }
+  }
+}
