@@ -9,7 +9,7 @@ const callbackBodySchema = yup.object().shape({
 
 const registerBodySchema = yup.object().shape({
   username: yup.string().required(),
-  profilePhoto: yup.number().required(),
+  profilePhoto: yup.string().required(),
   url: yup.string().required(),
   email: yup
     .string()

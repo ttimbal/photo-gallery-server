@@ -200,7 +200,7 @@ module.exports = {
           'token': "22fd1796f78149ff9bb2e25f758f5d0b"
         },
         formData: {
-           photo: 'https://media.revistagq.com/photos/5ca5f516e6e7b78202e89219/16:9/w_2992,h_1683,c_limit/venom_tom_hardy_914.jpg'
+           photo: params.url
         }
       };
 
