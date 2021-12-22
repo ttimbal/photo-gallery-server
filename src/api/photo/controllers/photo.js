@@ -6,7 +6,8 @@
 const {createCoreController} = require('@strapi/strapi').factories;
 const request = require("request");
 
-const  admin = require("firebase-admin");
+var admin = require("firebase-admin");
+
 
 module.exports = createCoreController('api::photo.photo', ({strapi}) => ({
   async findOne(ctx) {

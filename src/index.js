@@ -1,7 +1,7 @@
 'use strict';
-const admin = require("firebase-admin");
+var admin = require("firebase-admin");
 
-const serviceAccount = require('../serviceAccountKey.json');
+var serviceAccount = require('../serviceAccountKey.json');
 
 
 
@@ -12,10 +12,8 @@ module.exports = {
    *
    * This gives you an opportunity to extend code.
    */
-  register(/*{ strapi }*/) {
-    admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount)
-    });
+  register({ strapi }) {
+
   },
 
   /**
@@ -25,5 +23,10 @@ module.exports = {
    * This gives you an opportunity to set up your data model,
    * run jobs, or perform some special logic.
    */
-  bootstrap(/*{ strapi }*/) {},
+  bootstrap({ strapi }) {
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount)
+    });
+    strapi.firebase = admin
+  },
 };
