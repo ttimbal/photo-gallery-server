@@ -1,4 +1,9 @@
 'use strict';
+const admin = require("firebase-admin");
+
+const serviceAccount = require('../serviceAccountKey.json');
+
+
 
 module.exports = {
   /**
@@ -7,7 +12,11 @@ module.exports = {
    *
    * This gives you an opportunity to extend code.
    */
-  register(/*{ strapi }*/) {},
+  register(/*{ strapi }*/) {
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount)
+    });
+  },
 
   /**
    * An asynchronous bootstrap function that runs before

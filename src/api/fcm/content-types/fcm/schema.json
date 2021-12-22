@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "fcms",
+  "info": {
+    "singularName": "fcm",
+    "pluralName": "fcms",
+    "displayName": "fcm",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "token": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}

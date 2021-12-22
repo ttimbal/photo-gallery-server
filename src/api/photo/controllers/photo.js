@@ -6,6 +6,8 @@
 const {createCoreController} = require('@strapi/strapi').factories;
 const request = require("request");
 
+const  admin = require("firebase-admin");
+
 module.exports = createCoreController('api::photo.photo', ({strapi}) => ({
   async findOne(ctx) {
     const {id} = ctx.params;
@@ -109,7 +111,7 @@ const recognition=async(imageUrl,imageId,strapi)=>{
 
   request(options, (error, response, body)=> {
     const luxandData = JSON.parse(body)
-    if (error || luxandData.status==='failure') console.log.error('Luxand cloud error');
+    if (error || luxandData.status==='failure') console.log('Luxand cloud error');
     else{
         addYourPhoto(luxandData,imageId,strapi)
     }
@@ -126,7 +128,36 @@ const addYourPhoto=async(luxandData,imageId,strapi)=>{
     });
     if(user)
     strapi.db.query('api::your-photo.your-photo').create({data: {user:user.id, photo:imageId}});
+    await notification(user);
     //notify to user
   }
 
+}
+
+const notification=async(user)=>{
+  const fcm=await strapi.db.query('api::fcm.fcm').findMany({
+    where: { user: user.id },
+  });
+
+  const message = {
+    notification: {
+      title: 'Nueva foto',
+      body: '¡hey! subieron una foto en la que apareces'
+    },
+  };
+  const registrationTokens = [];
+  fcm.forEach((item) => {
+    registrationTokens.push(item.token);
+  })
+  if (registrationTokens.length > 0) {
+    try {
+      const {
+        failureCount,
+        successCount
+      } = await admin.messaging().sendToDevice(registrationTokens, message, {priority: 'high'});
+      console.log(`Successfully sent the notification to ${successCount} devices (${failureCount} failed).`);
+    } catch (err) {
+      console.log('An error occurred while connecting to Firebase');
+    }
+  }
 }
